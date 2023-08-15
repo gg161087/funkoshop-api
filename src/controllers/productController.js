@@ -16,10 +16,7 @@ const getProduct = async (req, res) => {
     try {
         const id = req.params.id
         const product = await productService.getProduct(id);
-        if (product.length == 0) {
-            res.status(404).json({success: false, message: 'bad request'});        
-        }
-        res.json({success: true, data: product});
+        product.length == 0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success: true, data: product});
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
