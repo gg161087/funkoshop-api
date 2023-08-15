@@ -3,10 +3,7 @@ import productService from './../services/productService.js';
 const getProducts = async (req, res) => {
     try {
         const products = await productService.getProducts();
-        if (products.length == 0) {
-            res.status(404).json({success: false, message: 'bad request'});        
-        }             
-        res.json({success: true, data: products});
+        products.length == 0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success: true, data: products});
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }  
@@ -14,7 +11,7 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
     try {
-        const id = req.params.id
+        const { id } = req.params
         const product = await productService.getProduct(id);
         product.length == 0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success: true, data: product});
     } catch (error) {
@@ -24,10 +21,9 @@ const getProduct = async (req, res) => {
 
 const createProduct = async (req, res) => {
     const body = req.body;
-    let result;
     if(
-        !body.name ||
-        !body.description ||
+        !body.product_name ||
+        !body.product_description ||
         !body.price ||
         !body.stock ||
         !body.discount ||
@@ -35,69 +31,25 @@ const createProduct = async (req, res) => {
         !body.dues ||
         !body.image_front ||
         !body.image_back ||
-        !body.license ||
-        !body.category
+        !body.license_id ||
+        !body.category_id
     ){
-        result = { success: false, data: 'faltan campos'}      
-    }else {
-        let response = await productService.createProduct(body);
-        result = { success: true, data: response}
-    }       
-    res.json(result)
+        return res.json({ success: false, data: 'faltan campos'}) 
+    }     
+    const result = await productService.createProduct(body);
+    res.json({ success: true, data: result});    
 };
 
 const updateProduct = async (req, res) => {
-    /* const id = req.params.id;
-    const body = req.body;
-    const licences = await licencesService.getLicences();
-    const lincence_name = licences.data[req.body.collection - 1].licence_name;
-    let url_front = '';
-    let url_back = '';
-    let image_front = body.images
-    let image_back = image_front.replace(/-1\.webp$/, "-box.webp");
-
-    switch (lincence_name) {
-        case 'Harry Potter':
-            url_front = `harry-potter/${image_front}`;
-            url_back = `harry-potter/${image_back}`;
-            break;
-        case 'Star Wars':
-            url_front = `star-wars/${image_front}`;
-            url_back = `star-wars/${image_back}`;
-            break;
-        case 'Pokemon':
-            url_front = `pokemon/${image_front}`;
-            url_back = `pokemon/${image_back}`;
-            break;
-        default:
-            console.log('No has seleccionado ninguna película válida.');            
-            break;
-    }
-    body.image_front = url_front;
-    body.image_back = url_back;
-
-    const result = await productsService.editProduct(body, id);
-
-    if (!result.isError) {
-        const categories = await categoriesService.getCategories();
-
-        res.render('message', {
-            view: {
-                title: 'Message | Funkoshop'
-            },
-            categories: categories.data,
-            title: 'Funko Modificado',
-            description: result.message
-        });
-    } else {
-        
-    } */
+    const { id } = req.params;
+    const { product_name, product_description, price, stock, discount, sku, dues, image_front, image_back, license_id, category_id} = req.body
+    const [result] = productService.updateProduct({ product_name, product_description, price, stock, discount, sku, dues, image_front, image_back, license_id, category_id}, id);
+    result.affectedRows <= 0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success:true, message: 'actualizado correctamente'});
 };
 const deleteProduct = async (req, res) => {
-    const id = req.params.id;
-
-    await productService.deleteProduct(id);
-    res.redirect('/admin');
+    const { id } = req.params;
+    const [result] = await productService.deleteProduct(id);
+    result.affectedRows <=0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success:true, message: 'Eliminado correctamente'});
 };
 
 export default {
