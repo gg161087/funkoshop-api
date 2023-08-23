@@ -1,39 +1,45 @@
-import { getConnection } from './../database/database.js';
+import productModel from './../models/productModel.js';
 
 const getProducts = async () => {
-    const connection = getConnection();
-    const [rows] = await connection.query('SELECT product.*, category.category_name, licence.licence_name FROM (product LEFT JOIN category ON product.category_id = category.category_id) LEFT JOIN licence ON product.licence_id = licence.licence_id;');
-    return rows;
+    const products = await productModel.findAll();
+    return products;
 };
 
-const getProductsByLicence = async (licence_id) => {
-    const connection = getConnection(); 
-    const [rows] = await connection.query('SELECT * FROM product WHERE licence_id = ?', licence_id);
-    return rows; 
+const getProductsByLicence = async (licence_id) => {    
+    const products = await productModel.findAll({
+        where: {
+            licence_id:licence_id,
+        },
+    });
+    return products;
 }
 
-const getProduct = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('SELECT * FROM product WHERE product_id = ?;', params);
-    return rows;
+const getProduct = async (id) => {
+    const product = await productModel.findByPk(id)
+    return product;
 };
 
 const createProduct = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('INSERT INTO product (product_name, product_description, price, stock, discount, sku, dues, image_front, image_back, licence_id, category_id) VALUES ?;', [params]);
-    return rows;
+    const createdProduct = await productModel.create(params);
+    return createdProduct;
 };
 
 const updateProduct = async (params, id) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('UPDATE product SET ? WHERE ?;', [params, id]);
-    return rows;
+    const product = await productModel.findByPk(id);
+    if (!product) {
+        return false;
+    }
+    const updatedProduct = await productModel.update(params);
+    return true;
 };
 
-const deleteProduct = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('DELETE FROM product WHERE ?;', params);
-    return rows;
+const deleteProduct = async (id) => {
+    const product = await productModel.findByPk(id);
+    if (!product) {
+        return false;
+    }
+    await product.destroy();
+    return true;
 };
 
 export default {

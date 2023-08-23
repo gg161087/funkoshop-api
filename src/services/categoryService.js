@@ -1,33 +1,36 @@
-import { getConnection } from './../database/database.js';
+import categoryModel from './../models/categoryModel.js';
 
-const getCategories = async () => {
-    const connection = getConnection();
-    const [rows] = await connection.query('SELECT * from category');
-    return rows;
+const getCategories = async () => {  
+    const categories = await categoryModel.findAll();
+    return categories;
 };
 
-const getCategory = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('SELECT * FROM category WHERE category_id = ?;', params);
-    return rows;
+const getCategory = async (id) => {  
+    const category = await categoryModel.findByPk(id);
+    return category;
 };
 
 const createCategory = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('INSERT INTO category (category_name, category_description) VALUES ?;', [params]);
-    return rows;
+    const createdCategory = await categoryModel.create(params);
+    return createdCategory;
 };
 
 const updateCategory = async (params, id) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('UPDATE category SET ? WHERE ?;', [params, id]);
-    return rows;
+    const category = await categoryModel.findByPk(id);
+    if (!category) {
+        return false;
+    }
+    const updatedCategory = await categoryModel.update(params);
+    return true;
 };
 
-const deleteCategory = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('DELETE FROM category WHERE ?;', params);
-    return rows;
+const deleteCategory = async (id) => {
+    const category = await categoryModel.findByPk(id);
+    if (!category) {
+        return false;
+    }
+    category.destroy();
+    return true;
 };
 
 export default {

@@ -23,5 +23,4 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/licences', licenceRoutes);
 
-
 export default app;

@@ -1,17 +1,10 @@
-import mysql from 'mysql2/promise';
-import { DB_HOST, DB_NAME, DB_USER, DB_PASSWORD } from './../config.js';
+import { Sequelize } from 'sequelize';
+import { DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD } from './../config.js';
 
-const connection = mysql.createPool({
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
     host: DB_HOST,
-    database: DB_NAME,
-    user: DB_USER,
-    password: DB_PASSWORD,
-    port: 3308,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
+    dialect: 'mysql',
+    port: DB_PORT
 });
 
-export const getConnection = () => {
-    return connection;
-};
+export default sequelize;

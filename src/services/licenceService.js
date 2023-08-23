@@ -1,33 +1,36 @@
-import { getConnection } from './../database/database.js';
+import licenceModel from './../models/licenceModel.js';
 
 const getLicences = async () => {
-    const connection = getConnection();
-    const [rows] = await connection.query('SELECT * from licence');
+    const rows = await licenceModel.findAll();
     return rows;
 };
 
-const getLicence = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('SELECT * FROM licence WHERE licence_id = ?;', params);
+const getLicence = async (params) => {  
+    const rows = await licenceModel.findByPk(params);
     return rows;
 };
 
 const createLicence = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('INSERT INTO licence (licence_name, licence_description, licence_image) VALUES ?;', [params]);
-    return rows;
+    const createdLicence = await licenceModel.create(params);
+    return createdLicence;
 };
 
 const updateLicence = async (params, id) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('UPDATE licence SET ? WHERE ?;', [params, id]);
-    return rows;
+    const licence = await licenceModel.findByPk(id);
+    if (!licence) {
+        return false
+    }
+    const updatedLicence = await licenceModel.update(params)
+    return updatedLicence;
 };
 
-const deleteLicence = async (params) => {
-    const connection = getConnection();
-    const [rows] = await connection.query('DELETE FROM licence WHERE ?;', params);
-    return rows;
+const deleteLicence = async (id) => {
+    const licence = await licenceModel.findByPk(id);
+    if (!licence) {
+        return false
+    }
+    await licenceModel.destroy()
+    return true;
 };
 
 export default {

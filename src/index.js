@@ -1,8 +1,15 @@
 import app from './app.js';
+import sequelize from './database/database.js';
 
 const main = () => {
-    app.listen(app.get('port'), () => {
-        console.log(`Server running http://localhost:${app.get('port')}`);
+    sequelize.sync({ force: false })
+    .then(() => {
+        app.listen(app.get('port'), () => {
+            console.log(`Server running http://localhost:${app.get('port')}`);
+        });
+    })
+    .catch(error => {
+        console.error('Error al sincronizar la base de datos:', error);
     });  
 };
 

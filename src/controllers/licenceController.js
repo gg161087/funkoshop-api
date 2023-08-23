@@ -31,12 +31,12 @@ const createLicence = async (req, res) => {
 const updateLicence = async (req, res) => {
     const { id } = req.params;
     const { licence_name, licence_description, licence_image} = req.body
-    const [result] = licenceService.updateLicence({ licence_name, licence_description, licence_image}, id);
+    const result = licenceService.updateLicence({ licence_name, licence_description, licence_image}, id);
     result.affectedRows <= 0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success:true, message: 'actualizado correctamente'});
 };
 const deleteLicence = async (req, res) => {
     const { id } = req.params;
-    const [result] = licenceService.deleteLicence(id);
+    const result = licenceService.deleteLicence(id);
     result.affectedRows <= 0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success:true, message: 'Eliminado correctamente'});
 };
 
