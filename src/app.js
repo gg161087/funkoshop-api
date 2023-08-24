@@ -6,6 +6,7 @@ import { PORT } from './config.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import licenceRoutes from './routes/licenceRoutes.js';
 import productRoutes from './routes/productRoutes.js';
+import roleRoutes from './routes/roleRoutes.js';
 
 
 const app = express();
@@ -22,5 +23,6 @@ app.use(express.json());
 app.use('/api/categories', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/licences', licenceRoutes);
+app.use('/api/roles', roleRoutes);
 
 export default app;

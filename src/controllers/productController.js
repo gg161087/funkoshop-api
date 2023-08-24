@@ -7,7 +7,7 @@ const getProducts = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
-}
+};
 
 const getProductsByLicence = async (req, res) => {
     try {
@@ -17,17 +17,17 @@ const getProductsByLicence = async (req, res) => {
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
-}
+};
 
 const getProduct = async (req, res) => {
     try {
-        const { id } = req.params
-        const product = await productService.getProduct(id);
+        const { product_id } = req.params
+        const product = await productService.getProduct(product_id);
         product.length == 0 ? res.status(404).json({success: false, message: 'bad request'}) : res.json({success: true, data: product});
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
     }
-}
+};
 
 const createProduct = async (req, res) => {
     const productData = req.body;
@@ -44,7 +44,7 @@ const createProduct = async (req, res) => {
         !productData.license_id ||
         !productData.category_id
     ){
-        return res.status(404).json({ success: false, data: 'faltan campos'}) 
+        return res.status(404).json({ success: false, data: 'Missing fields.'}) 
     }     
     try {        
         const createdProduct = await productService.createProduct(productData);
@@ -70,7 +70,7 @@ const updateProduct = async (req, res) => {
         !productData.license_id ||
         !productData.category_id
     ){
-        return res.status(404).json({ success: false, message: 'Missing fields.'}) 
+        return res.status(404).json({ success: false, message: 'Missing fields.'});
     }
     try {         
         const updatedProduct = await productService.updateProduct(productData, id);
@@ -79,11 +79,12 @@ const updateProduct = async (req, res) => {
         res.status(500).json({success:false, message: 'Error updating product.' });
     }  
 };
+
 const deleteProduct = async (req, res) => {
     try {
         const productId = req.params.id;
         const result = await productService.deleteProduct(productId);
-        result ? res.status(200).json({ success:true, message: 'Product deleted successfully' }) : res.status(404).json({ success:false, message: 'Product not found.'})
+        result ? res.status(200).json({ success:true, message: 'Product deleted successfully' }) : res.status(404).json({ success:false, message: 'Product not found.'});
     } catch (error) {
         res.status(500).json({ success:false, message: 'Error deleting product.' });
     }

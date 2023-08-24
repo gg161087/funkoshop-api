@@ -15,7 +15,7 @@ const getProductsByLicence = async (licence_id) => {
 }
 
 const getProduct = async (id) => {
-    const product = await productModel.findByPk(id)
+    const product = await productModel.findByPk(id);
     return product;
 };
 

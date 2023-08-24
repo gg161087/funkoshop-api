@@ -1,5 +1,6 @@
 import app from './app.js';
 import sequelize from './database/database.js';
+import './../src/models/associations.js';
 
 const main = () => {
     sequelize.sync({ force: false })

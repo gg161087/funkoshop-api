@@ -1,12 +1,14 @@
 import { DataTypes } from 'sequelize';
 import sequelize from './../database/database.js';
+import User from './userModel.js';
+import Role from './roleModel.js';
 
 const UserHasRole = sequelize.define('user_has_role', {
   user_user_id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: {
-      model: 'User',
+      model: User,
       key: 'user_id',
     },
   },
@@ -14,7 +16,7 @@ const UserHasRole = sequelize.define('user_has_role', {
     type: DataTypes.INTEGER,
     primaryKey: true,
     references: {
-      model: 'Role',
+      model: Role,
       key: 'role_id',
     },
   },
