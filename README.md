@@ -2,6 +2,7 @@ create ".env":
 PORT=3000
 HOST=localhost
 DB_HOST=localhost
+DB_PORT=3308
 DB_NAME=funkoshop
 DB_USER=admin
 DB_PASSWORD=admin
