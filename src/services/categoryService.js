@@ -1,31 +1,31 @@
-import categoryModel from './../models/categoryModel.js';
+import { Category } from '../models/indexModels.js';
 
 const getCategories = async () => {  
-    const categories = await categoryModel.findAll();
+    const categories = await Category.findAll();
     return categories;
 };
 
 const getCategory = async (id) => {  
-    const category = await categoryModel.findByPk(id);
+    const category = await Category.findByPk(id);
     return category;
 };
 
 const createCategory = async (params) => {
-    const createdCategory = await categoryModel.create(params);
+    const createdCategory = await Category.create(params);
     return createdCategory;
 };
 
 const updateCategory = async (params, id) => {
-    const category = await categoryModel.findByPk(id);
+    const category = await Category.findByPk(id);
     if (!category) {
         return false;
     }
-    const updatedCategory = await categoryModel.update(params);
+    const updatedCategory = await Category.update(params);
     return true;
 };
 
 const deleteCategory = async (id) => {
-    const category = await categoryModel.findByPk(id);
+    const category = await Category.findByPk(id);
     if (!category) {
         return false;
     }

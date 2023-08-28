@@ -1,8 +1,7 @@
 import { DataTypes, Sequelize } from 'sequelize';
 
-import categoryModel from './../models/categoryModel.js';
-import licenceModel from './../models/licenceModel.js';
-import sequelize from './../database/database.js';
+import { Category, Licence} from './indexModels.js';
+import sequelize from '../database/database.js';
 
 const Product = sequelize.define('product', {
     product_id: {
@@ -67,11 +66,11 @@ const Product = sequelize.define('product', {
     engine: 'InnoDB',
 });
 
-Product.belongsTo(categoryModel, {
+Product.belongsTo(Category, {
     foreignKey: 'category_id', 
 });
 
-Product.belongsTo(licenceModel, {
+Product.belongsTo(Licence, {
     foreignKey: 'licence_id', 
 });
 

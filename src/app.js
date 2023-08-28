@@ -1,13 +1,10 @@
 import express from 'express';
+import cors from 'cors';
 import morgan from 'morgan';
 
 import { PORT } from './config.js';
 
-import categoryRoutes from './routes/categoryRoutes.js';
-import licenceRoutes from './routes/licenceRoutes.js';
-import productRoutes from './routes/productRoutes.js';
-import roleRoutes from './routes/roleRoutes.js';
-
+import indexRoutes from './routes/indexRoutes.js';
 
 const app = express();
 
@@ -15,14 +12,15 @@ const app = express();
 app.set('port', PORT);
 
 //Middlewares
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 //Routes
-app.use('/api/categories', categoryRoutes);
-app.use('/api/products', productRoutes);
-app.use('/api/licences', licenceRoutes);
-app.use('/api/roles', roleRoutes);
+app.use('/api/categories', indexRoutes.category);
+app.use('/api/products', indexRoutes.product);
+app.use('/api/licences', indexRoutes.licence);
+app.use('/api/roles', indexRoutes.role);
 
 export default app;

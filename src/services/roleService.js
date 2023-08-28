@@ -1,26 +1,26 @@
-import roleModel from './../models/roleModel.js';
+import { Role } from '../models/indexModels.js';
 
 const getRoles = async () => {  
-    const roles = await roleModel.findAll();
+    const roles = await Role.findAll();
     return roles;
 };
 
 const getRole = async (id) => {  
-    const role = await roleModel.findByPk(id);
+    const role = await Role.findByPk(id);
     return role;
 };
 
 const createRole = async (params) => {
-    const createdRole = await roleModel.create(params);
+    const createdRole = await Role.create(params);
     return createdRole;
 };
 
 const updateRole = async (params, id) => {
-    const role = await roleModel.findByPk(id);
+    const role = await Role.findByPk(id);
     if (!role) {
         return false;
     }     
-    const updatedRole = await roleModel.update(params, {
+    const updatedRole = await Role.update(params, {
         where: { role_id: role_id },
         returning: true,
     });
@@ -29,7 +29,7 @@ const updateRole = async (params, id) => {
 };
 
 const deleteRole = async (id) => {
-    const role = await roleModel.findByPk(id);
+    const role = await Role.findByPk(id);
     if (!role) {
         return false;
     }

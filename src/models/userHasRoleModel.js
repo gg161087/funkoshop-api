@@ -1,7 +1,6 @@
 import { DataTypes } from 'sequelize';
-import sequelize from './../database/database.js';
-import User from './userModel.js';
-import Role from './roleModel.js';
+import sequelize from '../database/database.js';
+import { User, Role } from './indexModels.js';
 
 const UserHasRole = sequelize.define('user_has_role', {
   user_user_id: {
