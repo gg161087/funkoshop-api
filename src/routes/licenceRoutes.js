@@ -1,10 +1,13 @@
 import { Router } from 'express';
 
-const router = Router();
-
 import licenceController from './../controllers/licenceController.js';
 
-router.get('/:licence_id', licenceController.getLicence);
+const router = Router();
+
 router.get('/', licenceController.getLicences);
+router.get('/:licence_id', licenceController.getLicence);
+router.post('/', licenceController.createLicence);
+router.put('/:licence_id', licenceController.updateLicence);
+router.delete('/:licence_id', licenceController.deleteLicence);
 
 export default router;

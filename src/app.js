@@ -18,9 +18,11 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 //Routes
+app.use('/api/auth', indexRoutes.auth);
 app.use('/api/categories', indexRoutes.category);
-app.use('/api/products', indexRoutes.product);
 app.use('/api/licences', indexRoutes.licence);
+app.use('/api/products', indexRoutes.product);
 app.use('/api/roles', indexRoutes.role);
+app.use('/api/users', indexRoutes.user);
 
 export default app;
