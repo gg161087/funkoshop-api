@@ -6,6 +6,7 @@ DB_PORT=3308
 DB_NAME=funkoshop
 DB_USER=admin
 DB_PASSWORD=admin
+JWT_SECRET=secret
 
 create "docker-compose.yml":
 version: "3.8"
@@ -26,5 +27,8 @@ services:
 
 run in terminal:
 docker compose up
+
+
+or create database funkoshop (ej. xampp and edit .env)
 
 import funkoshop.sql on mysql docker server on
